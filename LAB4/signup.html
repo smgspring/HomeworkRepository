@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <h2>회원가입</h2>
+    <form action="login.html" method="get">
+      <label for="name">이름:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="홍길동"
+        required
+      /><br /><br />
+
+      <label for="email">이메일:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="example@email.com"
+        autocomplete="on"
+      /><br /><br />
+
+      <label for="password">비밀번호:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+        autofocus
+      /><br /><br />
+
+      <label for="birth">생년월일:</label>
+      <input type="date" id="birth" name="birth" /><br /><br />
+
+      <label for="age">학년:</label>
+      <input type="number" id="age" name="age" step="1" /><br /><br />
+
+      <label>성별:</label>
+      <div class="gender-options">
+        <div>
+          <label>
+            남성<br />
+            <input type="radio" name="gender" value="male" />
+          </label>
+        </div>
+        <div>
+          <label>
+            여성<br />
+            <input type="radio" name="gender" value="female" />
+          </label>
+        </div>
+      </div>
+      <br />
+
+      <label for="genre">좋아하는 영화 장르:</label>
+      <select id="genre" name="genre">
+        <option value="action">액션</option>
+        <option value="comedy">코미디</option>
+        <option value="drama">드라마</option>
+        <option value="romance">로맨스</option>
+        <option value="sci-fi">SF</option></select
+      ><br /><br />
+
+      <button type="submit">Signup</button>
+      <button class="cancel" type="button" onclick="location.href='login.html'">
+        Cancel
+      </button>
+    </form>
+
+    <p>이미 계정이 있으신가요? <a href="login.html">로그인</a></p>
+    <a href="index.html">메인페이지</a>
+  </body>
+</html>

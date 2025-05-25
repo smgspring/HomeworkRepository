@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>영화 정보 메인 페이지</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2 style="text-align: center">인프밍 영화 정보 사이트입니다.</h2>
+
+      <nav>
+        <a href="index.html">메인페이지</a>
+        <a href="login.html">로그인</a>
+        <a href="signup.html">회원가입</a>
+      </nav>
+
+      <div class="search-section">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="키워드를 입력하세요."
+        />
+        <button onclick="filterMovies()">Filter results</button>
+      </div>
+
+      <div class="filter-sort">
+        <div class="sort-box">
+          <h4>정렬 기준</h4>
+          <label
+            >평점 내림차순<input type="radio" name="sort" value="rating-desc" />
+          </label>
+          <label
+            >평점 오름차순<input type="radio" name="sort" value="rating-asc" />
+          </label>
+          <label
+            >개봉 내림차순<input type="radio" name="sort" value="date-desc" />
+          </label>
+          <label
+            >개봉 오름차순<input type="radio" name="sort" value="date-asc" />
+          </label>
+        </div>
+
+        <div class="movies-container" id="movieList">
+          <!-- 영화 카드들 동적 생성 위치 -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let movies = [];
+      let filteredMovies = [];
+      let currentIndex = 0;
+      const batchSize = 6;
+
+      function createMovieCard(movie) {
+        const wrapper = document.createElement("div");
+        wrapper.style.display = "flex";
+        wrapper.style.flexDirection = "column";
+        wrapper.style.alignItems = "center";
+
+        const card = document.createElement("div");
+        const explain = document.createElement("div");
+        card.className = "movie-card";
+        explain.className = "explain";
+
+        card.innerHTML = `
+          <img src="${movie.poster_url}" alt="${movie.title}" />
+          <div class="overview-hover">${movie.overview}</div>
+        `;
+
+        explain.innerHTML = `
+          <div class="movie-info">
+            <strong>${movie.title}</strong><br />
+            <small>개봉일: ${movie.release_date || "정보 없음"}</small><br />
+            <small>평점: ${movie.vote_average}</small>
+          </div>
+        `;
+
+        wrapper.appendChild(card);
+        wrapper.appendChild(explain);
+        return wrapper;
+      }
+
+      function displayMovies(list, reset = false) {
+        const container = document.getElementById("movieList");
+        if (reset) {
+          container.innerHTML = "";
+          currentIndex = 0;
+        }
+
+        const batch = list.slice(currentIndex, currentIndex + batchSize);
+        batch.forEach((movie) => container.appendChild(createMovieCard(movie)));
+        currentIndex += batchSize;
+      }
+
+      function filterMovies() {
+        const keyword = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        filteredMovies = movies.filter(
+          (m) =>
+            m.title.toLowerCase().includes(keyword) ||
+            m.overview.toLowerCase().includes(keyword)
+        );
+        applySort();
+        displayMovies(filteredMovies, true);
+      }
+
+      function applySort() {
+        const sortValue = document.querySelector(
+          'input[name="sort"]:checked'
+        )?.value;
+        if (!sortValue) return;
+
+        if (sortValue === "rating-desc") {
+          filteredMovies.sort((a, b) => b.vote_average - a.vote_average);
+        } else if (sortValue === "rating-asc") {
+          filteredMovies.sort((a, b) => a.vote_average - b.vote_average);
+        } else if (sortValue === "date-desc") {
+          filteredMovies.sort(
+            (a, b) => new Date(b.release_date) - new Date(a.release_date)
+          );
+        } else if (sortValue === "date-asc") {
+          filteredMovies.sort(
+            (a, b) => new Date(a.release_date) - new Date(b.release_date)
+          );
+        }
+      }
+
+      document.querySelectorAll('input[name="sort"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          applySort();
+          displayMovies(filteredMovies, true);
+        });
+      });
+
+      window.addEventListener("scroll", () => {
+        const scrollBottom =
+          window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 10;
+        if (scrollBottom && currentIndex < filteredMovies.length) {
+          displayMovies(filteredMovies);
+        }
+      });
+
+      fetch("product.json")
+        .then((res) => res.json())
+        .then((data) => {
+          movies = data;
+          filteredMovies = [...movies];
+          applySort();
+          displayMovies(filteredMovies);
+        })
+        .catch((err) => console.error("데이터 로딩 오류:", err));
+    </script>
+  </body>
+</html>
