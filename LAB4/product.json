@@ -68,34 +68,34 @@
     "release_date": "1995-11-16",
     "overview": "James Bond must unmask the mysterious head of the Janus Syndicate and prevent the leader from utilizing the GoldenEye weapons system to inflict devastating revenge on Britain.",
     "vote_average": 6.6,
-    "poster_url": "Img/GoldenEye.png"
+    "poster_url": "img/golden.png"
   },
   {
     "title": "The American President",
     "release_date": "1995-11-17",
     "overview": "Widowed U.S. president Andrew Shepherd, one of the world's most powerful men, can have anything he wants -- and what he covets most is Sydney Ellen Wade, a Washington lobbyist. But Shepherd's attempts at courting her spark wild rumors and decimate his approval ratings.",
     "vote_average": 6.5,
-    "poster_url": "Img/The+American+President.png"
+    "poster_url": "img/american.png"
   },
   {
     "title": "Dracula: Dead and Loving It",
     "release_date": "1995-12-22",
     "overview": "When a lawyer shows up at the vampire's doorstep, he falls prey to his charms and joins him in his search for fresh blood. Enter Dr. van Helsing, who may be the only one able to vanquish the count.",
     "vote_average": 5.7,
-    "poster_url": "Img/Dracula+Dead+and+Loving+It.png"
+    "poster_url": "img/dracula.png"
   },
   {
     "title": "Balto",
     "release_date": "1995-12-22",
     "overview": "An outcast half-wolf risks his life to prevent a deadly epidemic from ravaging Nome, Alaska.",
     "vote_average": 7.1,
-    "poster_url": "Img/Balto.png"
+    "poster_url": "img/balt.png"
   },
   {
     "title": "Nixon",
     "release_date": "1995-12-22",
     "overview": "An all-star cast powers this epic look at American President Richard M. Nixon, a man carrying the fate of the world on his shoulders while battling the self-destructive demands within. Spanning his troubled boyhood in California to the shocking Watergate scandal that would end his presidency.",
     "vote_average": 7.1,
-    "poster_url": "Img/Nixon.png"
+    "poster_url": "img/nixo.png"
   }
 ]

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>영화 상세 정보</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">홈</a>
+      <a href="login.html">로그인</a>
+      <a href="signup.html">회원가입</a>
+    </nav>
+
+    <div id="movie-detail">
+      <h2 id="title">영화 제목</h2>
+      <img id="poster" src="" alt="영화 포스터" style="max-width: 300px" />
+      <p><strong>개봉일:</strong> <span id="release-date"></span></p>
+      <p><strong>평점:</strong> <span id="rating"></span></p>
+      <p><strong>줄거리:</strong></p>
+      <p id="overview"></p>
+    </div>
+
+    <div class="comment-box">
+      <h3>댓글</h3>
+      <div id="comment-list"></div>
+
+      <h4>댓글 작성</h4>
+      <form id="comment-form">
+        <input type="text" id="writer" placeholder="작성자" required />
+        <textarea
+          id="text"
+          rows="3"
+          placeholder="내용을 입력하세요"
+          required
+        ></textarea>
+        <button type="submit">등록</button>
+      </form>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const movieId = params.get("id");
+
+      // 영화 정보 가져오기
+      fetch(`/api/movies/${movieId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          document.getElementById("title").textContent = data.movie_title;
+          document.getElementById("poster").src = data.movie_image;
+          document.getElementById("release-date").textContent =
+            data.movie_release_date;
+          document.getElementById("rating").textContent = data.movie_rate;
+          document.getElementById("overview").textContent = data.movie_overview;
+        });
+
+      // 댓글 목록 가져오기
+      function loadComments() {
+        fetch(`/api/comments/${movieId}`)
+          .then((res) => res.json())
+          .then((comments) => {
+            const list = document.getElementById("comment-list");
+            list.innerHTML = "";
+            comments.forEach((c) => {
+              const item = document.createElement("div");
+              item.className = "comment-item";
+              item.innerHTML = `<strong>${c.writer}</strong> <small>(${new Date(
+                c.timestamp
+              ).toLocaleString()})</small><br>${c.text}`;
+              list.appendChild(item);
+            });
+          });
+      }
+
+      loadComments();
+
+      // 댓글 작성
+      document
+        .getElementById("comment-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const writer = document.getElementById("writer").value;
+          const text = document.getElementById("text").value;
+
+          fetch("/api/comments", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ movie_id: movieId, writer, text }),
+          })
+            .then((res) => res.json())
+            .then(() => {
+              document.getElementById("comment-form").reset();
+              loadComments();
+            });
+        });
+    </script>
+  </body>
+</html>

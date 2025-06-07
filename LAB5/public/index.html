@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>영화 목록</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">홈</a>
+      <a href="login.html">로그인</a>
+      <a href="signup.html">회원가입</a>
+    </nav>
+
+    <section class="search-section">
+      <input type="text" id="search-input" placeholder="영화 검색..." />
+      <button onclick="loadMovies()">검색</button>
+    </section>
+
+    <section class="filter-sort">
+      <div class="sort-box">
+        <h4>정렬</h4>
+        <select id="sort-select" onchange="loadMovies()">
+          <option value="">-- 정렬 선택 --</option>
+          <option value="rating-desc">평점 높은 순</option>
+          <option value="rating-asc">평점 낮은 순</option>
+          <option value="date-desc">최신순</option>
+          <option value="date-asc">오래된 순</option>
+        </select>
+      </div>
+
+      <div class="movies-container" id="movie-list"></div>
+    </section>
+
+    <script>
+      function loadMovies() {
+        const keyword = document.getElementById("search-input").value;
+        const sort = document.getElementById("sort-select").value;
+
+        let url = `/api/movies?`;
+        if (keyword) url += `keyword=${encodeURIComponent(keyword)}&`;
+        if (sort) url += `sort=${sort}`;
+
+        fetch(url)
+          .then((res) => res.json())
+          .then((movies) => {
+            const container = document.getElementById("movie-list");
+            container.innerHTML = "";
+
+            if (movies.length === 0) {
+              container.innerHTML = "<p>검색 결과가 없습니다.</p>";
+              return;
+            }
+
+            movies.forEach((movie) => {
+              const card = document.createElement("div");
+              card.className = "movie-card";
+              card.onclick = () =>
+                (location.href = `movie_detail.html?id=${movie.movie_id}`);
+              card.innerHTML = `
+              <img src="${movie.movie_image}" alt="${movie.movie_title}" />
+              <div class="overview-hover">${movie.movie_overview}</div>
+              <h4>${movie.movie_title}</h4>
+              <p><strong>개봉일:</strong> ${movie.movie_release_date}</p>
+              <p><strong>평점:</strong> ${movie.movie_rate}</p>
+            `;
+              container.appendChild(card);
+            });
+          });
+      }
+
+      // 첫 로딩 시 실행
+      loadMovies();
+    </script>
+  </body>
+</html>
