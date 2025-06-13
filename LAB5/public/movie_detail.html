@@ -12,13 +12,16 @@
       <a href="signup.html">회원가입</a>
     </nav>
 
-    <div id="movie-detail">
-      <h2 id="title">영화 제목</h2>
+    <div id="movie-detail" class="movie-detail-flex">
       <img id="poster" src="" alt="영화 포스터" style="max-width: 300px" />
-      <p><strong>개봉일:</strong> <span id="release-date"></span></p>
-      <p><strong>평점:</strong> <span id="rating"></span></p>
-      <p><strong>줄거리:</strong></p>
-      <p id="overview"></p>
+      <div class="movie-info">
+        <h2 id="title">영화 제목</h2>
+        <p><strong>영화 id:</strong> <span id="movie-id"></span></p>
+        <p><strong>개봉일:</strong> <span id="release-date"></span></p>
+        <p><strong>평점:</strong> <span id="rating"></span></p>
+        <p><strong>줄거리:</strong></p>
+        <p id="overview"></p>
+      </div>
     </div>
 
     <div class="comment-box">
@@ -47,6 +50,7 @@
         .then((res) => res.json())
         .then((data) => {
           document.getElementById("title").textContent = data.movie_title;
+          document.getElementById("movie-id").textContent = data.movie_id;
           document.getElementById("poster").src = data.movie_image;
           document.getElementById("release-date").textContent =
             data.movie_release_date;

@@ -190,3 +190,20 @@ nav a:hover {
 .comment-item:last-child {
   border-bottom: none;
 }
+
+/* movie detail */
+.movie-detail-flex {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  margin: 40px 0;
+  justify-content: center;
+}
+.movie-detail-flex img {
+  flex-shrink: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.movie-info {
+  max-width: 500px;
+}
